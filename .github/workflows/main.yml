@@ -10,7 +10,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run black formatter
-        uses: rickstaa/action-black@v1.1.14
+        - uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -29,7 +31,4 @@ jobs:
         run: |
           pipenv run pytest
       
-      - name: format
-        run: |
-          black
 
