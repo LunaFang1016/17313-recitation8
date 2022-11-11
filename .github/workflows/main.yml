@@ -30,7 +30,7 @@ jobs:
       - name: Run test suite
         run: |
           pipenv run pytest
-          
+
   report-coverage:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -56,9 +56,9 @@ jobs:
       - name: Move to flask folder
         run: |
           cd app
-      - name: Run test suite
+      - name: Run coverage test
         run: |
-          pipenv run pytest
+          pipenv run pytest --cov=app
       - name: Build coverage file
         run: |
           pytest --cache-clear --cov=app test/ > pytest-coverage.txt
