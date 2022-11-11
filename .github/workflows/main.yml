@@ -30,8 +30,7 @@ jobs:
       - name: Run test suite
         run: |
           pipenv run pytest
-
-jobs:
+          
   report-coverage:
     runs-on: ubuntu-latest
     timeout-minutes: 10
