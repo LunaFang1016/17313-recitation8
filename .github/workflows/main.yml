@@ -8,6 +8,11 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+        
+      - name: Run black formatter
+        uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -25,3 +30,5 @@ jobs:
       - name: Run test suite
         run: |
           pipenv run pytest
+      
+
