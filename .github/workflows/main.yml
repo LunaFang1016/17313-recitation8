@@ -1,5 +1,5 @@
 name: build
-on: push
+on: [push, pull_request]
 
 jobs:
   test:
@@ -30,5 +30,39 @@ jobs:
       - name: Run test suite
         run: |
           pipenv run pytest
+
+  report-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        
+      - name: Run black formatter
+        uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv wheel
+      - name: Install dependencies
+        run: |
+          pipenv install --deploy --dev
+      - name: Move to flask folder
+        run: |
+          cd app
+      - name: Run coverage test
+        run: |
+          pipenv run pytest --cov=app
+      - name: Build coverage file
+        run: |
+          pipenv run pytest --cache-clear --cov=app/ > pytest-coverage.txt
+      - name: Comment coverage
+        uses: coroo/pytest-coverage-commentator@v1.0.2
       
 
